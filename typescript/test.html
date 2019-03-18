@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+var aaa = [];
+var bbb = [];
+for ( var i = 0; i< 10; i++){
+     aaa[i] =( function(i) {
+         return i
+     })(i)
+}
+console.log(aaa[6])
+
+for (let j = 0 ; j<10;j++){
+    bbb[j] = function() {
+        return j
+    }
+}
+console.log(bbb[6]())
+
+</script>
+</html>

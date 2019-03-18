@@ -1,0 +1,42 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    //   console.log([].length?1:2)
+    // var object = {
+    //   foo: "bar",
+    //   aaa:function(){
+    //     console.log(this)
+    //   },
+    //   fuc: () =>{
+    //     var self = this;
+    //     console.log("this.foo" + this.foo);
+    //     console.log("self.foo" + self.foo);
+    //     (function() {
+    //         console.log(this)
+    //       console.log("this.foo" + this.foo);
+    //       console.log("self.foo" + self.foo);
+    //     })();
+    //   }
+    // };
+    // object.aaa();
+    // object.fuc();
+
+    let aaa = (haha=0) => {
+        haha++;
+        if(haha<10){
+            aaa(haha);
+        }else{
+            console.log(222);
+            return;
+        };
+        console.log(haha);
+    }
+    aaa();
+  </script>
+</html>
