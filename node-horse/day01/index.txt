@@ -1,0 +1,8 @@
+node.js不是一门语言
+是一个js运行时环境（可以解析和执行JS代码） 
+ecmascript(语法) 基本的语法  if  var function object array
+
+nodejs  
+没有dom   bom
+
+提供一系列api  用来操作服务器

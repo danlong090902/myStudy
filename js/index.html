@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .container {
+        display: flex;
+    }
+    .img {
+        flex-grow: 1;
+        height: 100px;
+        line-height: 100px;
+        transition:flex-grow 1s;
+        text-align: center;
+    }
+</style>
+<body>
+<div class="container">
+    添加姓名
+</div>
+</body>
+<script>
+
+
+var teacher = "17dian";
+function ask(question){
+  console.log(teacher,question);
+}
+function other(){
+  var teacher = "dongyang";
+  ask("who");
+}
+other()
+
+// 答案： 17dian who
+// 解析：（1）JavaScript在运行是分为两个步骤，先编译后执行
+//      （2）编译会根据所有正式声明生成词法作用域，正式声明包括标识符（var、let等），函数参数。
+//      （3）运行时会根据词法作用域引用变量
+//       一句话：函数中变量是在定义时决定的，不是在运行时
+
+
+
+
+
+
+
+// var teacher = "17dian";
+// function otherClass(teacher){
+//    if(typeof teacher === 'undefined'){
+//      console.log(teacher)
+//      let teacher = "dongyang" 
+//    }else {
+//       console.log(teacher);
+//    }
+// }
+// otherClass()
+
+
+// 答案： ReferenceError: teacher is not defined
+// 解析：（1）JavaScript在运行是分为两个步骤，先编译后执行
+//      （2）编译会根据所有正式声明生成词法作用域，正式声明包括标识符（var、let等），函数参数。所以typeof的teacher在otherClass的作用域中
+//      （3）块级作用域变量只作用于{}中，不允许未声明就使用
+
+
+
+
+
+// function fn(){
+//   return print()
+//   function print(){
+//     console.log('1')
+//   }
+// }
+// let fn2 = function fn(){
+//   console.log(fn)
+//   return print2()
+//   var print2 = function(){
+//     console.log('2')
+//   }
+// }
+// fn()
+// fn2()
+
+
+// 答案： 1 ,  fn函数 ,  print2 is not a function
+// 解析：（1）函数声明会加入变量放入临近的作用域中，而函数表达式会将变量放入自己的作用域中
+//      （2）函数声明的变量提升是可以直接调用函数的，而print2变量提升此时被初始化为undefined
+
+
+
+
+
+
+
+
+for(let i=1;i<=3;i++){
+  setTimeout(function(){
+    console.log(i)
+  }, i*1000)
+}
+ for(var i=1;i<=3;i++){
+  setTimeout(function(){
+    console.log(i)
+  }, i*1000)
+}
+
+
+// 答案： 1 , 2 , 3
+//       4 , 4 , 4
+// 解析： 闭包是指函数在执行时会根据其词法作用域去引用变量（在定义时决定的，不是在运行时）
+//       所以在循环中中let中i会在不同作用域中
+
+
+
+
+var workshop = (function Module(){
+      let teacher = "17dian";
+      let publicAPI = {ask}
+      return publicAPI;
+      function ask(question){
+        console.log(teacher,question)
+      }
+  })()
+  let teacher = "dongyang";
+  workshop.ask("are you OK?")
+
+
+//   答案： 17dian are you OK?
+// 解析：（1）通过立即执行函数可以返回一个对象
+//      （2）对象中所使用的变量根据词法作用域决定，不受执行环境影响
+//      （3）定义在函数内部的私有变量不会被外界改变
+
+
+
+
+var workshop = {
+   teacher:"17dian",
+   ask(question){
+      console.log(this.teacher,question)
+   }
+}
+let teacher = "dongyang";
+setTimeout(workshop.ask,100,"lost")
+
+
+
+
+// 答案： undefined "lost"
+// 解析：（1）setTimeout中回调函数被window调用
+//      （2）ES6中let声明的全局变量不会与顶层对象进行绑定
+//      （3）可以通过call、bind解决绑定丢失
+
+
+// 巩固：
+  var workshop = {
+     teacher:"17dian",
+     ask(question){
+        console.log(this.teacher,question)
+     }
+  }
+  var teacher = "dongyang"; 
+  setTimeout(workshop.ask,100,"lost")                //dongyang lost
+  setTimeout(workshop.ask.bind(workshop),100,"lost") //17dian lost
+  var fn = workshop.ask;
+  fn("ok")   //dongyang ok
+  fn.call(workshop,"ok") //17dian ok
+//   注意：
+//       使用严格模式下"use strict"，fn("ok")不会默认指向windows
+//       但是在setTimeout中回调函数指向windows，即使是在严格模式下(参考MDN)，但不包括箭头函数
+
+
+
+
+
+var workshop = {
+  teacher:"17dian",
+  ask(question){
+      setTimeout(function(){
+        console.log(this)
+      },100)      
+  },
+  arrowAsk(question){
+      setTimeout(()=>{
+        console.log(this)
+      },100)      
+  }
+}
+workshop.ask()
+workshop.arrowAsk()
+
+
+// 答案：  Window
+//        workshop
+// 解析：  箭头函数类似于变量不定义this，而是引用所以词法环境中的this
+//        这一点很重要，所以它会引用arrowAsk下的this，而不是setTimeout下的windows
+//        通常也可以理解为指向父级作用域，但是不准确 [详情](https://frontendmasters.com/courses/deep-javascript-v3/)
+
+
+
+
+var teacher = "dongyang"
+function fn(){
+  console.log(this.teacher)
+  this.teacher = "17dian"
+  console.log(this.teacher)
+}
+fn()
+new fn()
+
+// 答案：  dongyang  17dian
+//        undefined 17dian
+// 解析：  (1)fn()时this执向windows
+//       （2）new fn()new关键字执行以后四个步骤
+//        创建一个空对象、将this指向这个空对象、执行函数、返回对象
+
+
+
+
+function WorkShop(teacher){
+    this.teacher = teacher;
+}
+WorkShop.prototype.ask = function(question){
+  console.log(this.teacher,question)
+}
+var objInstance = new  WorkShop();
+console.log(objInstance.__proto__ === WorkShop.prototype)
+//第一问？
+
+
+function AnoterWorkShop(teacher){
+  WorkShop.call(this,teacher)
+}
+AnoterWorkShop.prototype = new WorkShop()
+var obj = new AnoterWorkShop("17dian");
+obj.ask("hello")  
+//第二问？
+
+AnoterWorkShop.prototype.ask = function(question){
+  console.log(question,this.teacher)
+}
+var obj2 = new AnoterWorkShop("dongyang");
+obj2.ask("hello")
+obj.ask("hello")
+
+//第三问？ 
+console.log(obj instanceof AnoterWorkShop)
+console.log(obj instanceof WorkShop)
+console.log(obj instanceof Function)
+
+// 答案：  true
+//        17dian hello
+//        hello dongyang
+//        hello 17dian
+//        true true fales
+// 解析：  (1)函数中有原型对象的属性prototype
+//       （2）通过new时创建的实例上对象中有__proto__指向原型对象
+//       （3）所以在AnoterWorkShop的原型对象上通过new WorkShop()继承WorkShop上的属性
+//        (4) 创建后对象可以通过instanceof判断构造函数
+//       （5）注意函数的构造函数是Function而对象的构造函数是Object
+
+
+</script>
+</html>

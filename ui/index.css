@@ -1,0 +1,77 @@
+
+[class*='col-'] {
+    float: left;
+    min-height: 1px;
+    max-width: 1900px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.row:before,
+.row:after {
+    content: '';
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+.row {
+    padding: 0 10px;
+    width: 100%;
+    flex-wrap: nowrap
+}
+
+.bg-color {
+    background-color: blueviolet;
+}
+
+.col-12 {
+    width: calc(100% - 20px);
+}
+
+.col-11 {
+    width: calc(11 * (100% - 20px) / 12);
+}
+
+.col-10 {
+    width: calc(5 * (100% - 20px) / 6);
+}
+
+.col-9 {
+    width: calc(3 * (100% - 20px) / 4);
+}
+
+.col-8 {
+    width: calc(2 * (100% - 20px) / 3);
+}
+
+.col-7 {
+    width: calc(7 * (100% - 20px) / 12);
+}
+
+.col-6 {
+    width: calc((100% - 20px) / 2);
+}
+
+.col-5 {
+    width: calc(5 * (100% - 20px) / 12);
+}
+
+.col-4 {
+    width: calc((100% - 20px) / 3);
+}
+
+.col-3 {
+    width: calc((100% - 20px) / 4);
+}
+
+.col-2 {
+    width: calc((100% - 20px) / 6);
+}
+
+.col-1 {
+    width: calc((100% - 20px) / 12);
+}
