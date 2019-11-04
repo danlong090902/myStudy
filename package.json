@@ -4,7 +4,7 @@
     "global": "^4.3.2",
     "hexo-cli": "^1.1.0",
     "koa": "2.0.0",
-    "mongoose": "^5.5.4",
+    "mongoose": "^5.7.5",
     "react-navigation": "^3.9.0",
     "webpack": "^4.32.2",
     "webpack-dev-server": "^3.4.1"
